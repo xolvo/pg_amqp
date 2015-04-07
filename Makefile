@@ -1,7 +1,7 @@
 EXTENSION    = amqp
 EXTVERSION   = $(shell grep default_version $(EXTENSION).control | \
                sed -e "s/default_version[[:space:]]*=[[:space:]]*'\([^']*\)'/\1/")
-DATA         = $(filter-out $(wildcard sql/*--*.sql),$(wildcard sql/*.sql))
+DATA         = $(wildcard *--*.sql) sql/$(EXTENSION)--$(EXTVERSION).sql
 DOCS         = $(wildcard doc/*.*)
 TESTS        = $(wildcard test/sql/*.sql)
 REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
@@ -28,3 +28,4 @@ endif
 
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
+override CFLAGS += -lpthread
